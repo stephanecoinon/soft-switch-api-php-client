@@ -1,0 +1,28 @@
+{
+    "name": "stephanecoinon/softswitch",
+    "description": "PHP client for Soft-Switch PBX API",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stéphane Coinon",
+            "email": "me@stephanecoinon.co.uk"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "require-dev": {
+        "vlucas/phpdotenv": "^2.4",
+        "phpunit/phpunit": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "StephaneCoinon\\SoftSwitch\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}
