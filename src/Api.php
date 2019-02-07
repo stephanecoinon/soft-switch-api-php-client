@@ -2,6 +2,8 @@
 
 namespace StephaneCoinon\SoftSwitch;
 
+use StephaneCoinon\SoftSwitch\Models\PeerCount;
+
 class Api extends HttpClient
 {
     /**
@@ -11,21 +13,9 @@ class Api extends HttpClient
      */
     public function countPeers()
     {
-        $json = json_decode($this->get('COUNTPEERS')->getBody(), true);
-
-        // Get total count
-        $total = $json['total'];
-
-        // Cast peers count to int for each node
-        unset($json['total']); // only keep nodes in array
-        foreach ($json as $key => $value) {
-            $json[$key] = (int) $value;
-        }
-
-        return (Object) [
-            'total' => $total,
-            'nodes' => $json,
-        ];
+        return PeerCount::createFromJson(
+            json_decode($this->get('COUNTPEERS')->getBody(), true)
+        );
     }
 
 

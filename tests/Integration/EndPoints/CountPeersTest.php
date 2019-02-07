@@ -2,6 +2,7 @@
 
 namespace Tests\Integration\EndPoints;
 
+use StephaneCoinon\SoftSwitch\Models\PeerCount;
 use Tests\TestCase;
 
 class CountPeersTest extends TestCase
@@ -11,7 +12,8 @@ class CountPeersTest extends TestCase
     {
         $response = $this->api->countPeers();
 
-        $this->assertObjectHasAttribute('total', $response);
+        $this->assertInstanceOf(PeerCount::class, $response);
+        $this->assertGreaterThan(0, $response->total);
         $this->assertEquals($response->total, array_sum($response->nodes));
     }
 }
