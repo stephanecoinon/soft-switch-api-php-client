@@ -50,6 +50,20 @@ class Model
     }
 
     /**
+     * Set an attribute value.
+     *
+     * @param  string $name
+     * @param  mixed $value
+     * @return self
+     */
+    public function setAttribute(string $name, $value): self
+    {
+        $this->attributes[$name] = $value;
+
+        return $this;
+    }
+
+    /**
      * Get all the attributes on the model.
      *
      * @return array
@@ -68,5 +82,35 @@ class Model
     public function __get($name)
     {
         return $this->getAttribute($name);
+    }
+
+    /**
+     * Set an attribute value.
+     *
+     * @param  string $name
+     * @param  mixed $value
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        $this->setAttribute($name, $value);
+    }
+
+    public function toArray(): array
+    {
+        return $this->getAttributes();
+    }
+
+    /**
+     * Get parameters to pass to API from this model.
+     *
+     * Override this method in your child model when not all the model attributes
+     * should be passed as parameters to the API.
+     *
+     * @return array
+     */
+    public function getApiParameters(): array
+    {
+        return $this->toArray();
     }
 }
