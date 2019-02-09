@@ -38,4 +38,9 @@ class TestCase extends BaseTestCase
         $args = array_values($this->apiCredentials);
         $this->api = new Api(...$args);
     }
+
+    function pass()
+    {
+        $this->assertTrue(true);
+    }
 }

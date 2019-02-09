@@ -9,13 +9,11 @@ class Api extends HttpClient
     /**
      * Return the number of peers on each node and the total.
      *
-     * @return Object {'total' => int, 'nodes' => [string => int]}
+     * @return \StephaneCoinon\SoftSwitch\Models\PeerCount
      */
     public function countPeers()
     {
-        return PeerCount::createFromJson(
-            json_decode($this->get('COUNTPEERS')->getBody(), true)
-        );
+        return PeerCount::createFromJson($this->getJson('COUNTPEERS'));
     }
 
 

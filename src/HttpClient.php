@@ -3,6 +3,7 @@
 namespace StephaneCoinon\SoftSwitch;
 
 use GuzzleHttp\Client as Guzzle;
+use StephaneCoinon\SoftSwitch\Exceptions\MalformedJson;
 
 class HttpClient
 {
@@ -15,7 +16,7 @@ class HttpClient
     /** @var string  API key */
     protected $key;
 
-    /** @var [type] HTTP client */
+    /** @var \GuzzleHttp\Client Underlying HTTP client */
     protected $http;
 
     /** @var string  debug HTTP client requests? */
@@ -35,11 +36,33 @@ class HttpClient
         $this->username = $username;
         $this->key = $key;
 
-        $this->http = new Guzzle([
+        $this->setClient(new Guzzle([
             'base_uri' => $this->baseUri,
-        ]);
+        ]));
     }
 
+    /**
+     * Set the underlying HTTP client.
+     *
+     * @param  \GuzzleHttp\Client $httpClient
+     * @return self
+     */
+    public function setClient($httpClient)
+    {
+        $this->http = $httpClient;
+
+        return $this;
+    }
+
+    /**
+     * Get the underlying HTTP client instance.
+     *
+     * @return \GuzzleHttp\Client
+     */
+    public function getClient()
+    {
+        return $this->http;
+    }
 
     /**
      * Turn debug/verbose on/off.
@@ -91,5 +114,27 @@ class HttpClient
     public function get($type, $parameters = [], $format = 'json')
     {
         return $this->request('GET', $type, $parameters, $format);
+    }
+
+    /**
+     * Send a GET request to an API endpoint and get the decoded JSON response.
+     *
+     * @param  string  $type        request type
+     * @param  array   $parameters  request parameters
+     * @param  boolean $assoc       When TRUE, returned objects will be converted into associative arrays.
+     * @return array
+     * @throws \StephaneCoinon\SoftSwitch\Exceptions\MalformedJson
+     */
+    public function getJson($type, $parameters = [], $assoc = true)
+    {
+        $response = $this->get($type, $parameters, 'json');
+
+        $json = json_decode($response->getBody(), $assoc);
+
+        if (is_null($json)) {
+            throw new MalformedJson('Malformed JSON response', json_last_error());
+        }
+
+        return $json;
     }
 }
