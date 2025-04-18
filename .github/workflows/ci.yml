@@ -29,5 +29,11 @@ jobs:
     - name: Install dependencies
       run: composer update --prefer-dist --no-interaction --prefer-stable --no-suggest
 
+    - name: Create .env file
+      run: |
+        echo "SOFT_SWITCH_API_URL=" >> .env
+        echo "SOFT_SWITCH_API_USERNAME=" >> .env
+        echo "SOFT_SWITCH_API_KEY=" >> .env
+
     - name: Run tests
       run: vendor/bin/phpunit --testsuite unit
