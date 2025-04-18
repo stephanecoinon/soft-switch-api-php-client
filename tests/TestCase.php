@@ -26,9 +26,9 @@ class TestCase extends BaseTestCase
         $dotenv->load();
 
         $this->apiCredentials = [
-            'url' => getenv('SOFT_SWITCH_API_URL'),
-            'username' => getenv('SOFT_SWITCH_API_USERNAME'),
-            'key' => getenv('SOFT_SWITCH_API_KEY'),
+            'url' => $_ENV['SOFT_SWITCH_API_URL'] ?? null,
+            'username' => $_ENV['SOFT_SWITCH_API_USERNAME'] ?? null,
+            'key' => $_ENV['SOFT_SWITCH_API_KEY'] ?? null,
         ];
     }
 
