@@ -22,7 +22,7 @@ class TestCase extends BaseTestCase
 
     protected function loadApiCredentials()
     {
-        $dotenv = new Dotenv(__DIR__.'/..');
+        $dotenv = Dotenv::createImmutable(__DIR__.'/..');
         $dotenv->load();
 
         $this->apiCredentials = [

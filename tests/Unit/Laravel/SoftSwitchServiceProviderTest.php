@@ -32,7 +32,7 @@ class SoftSwitchServiceProviderTest extends TestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $dotenv = new Dotenv(__DIR__.'/../../..');
+        $dotenv = Dotenv::createImmutable(__DIR__.'/../../..');
         $dotenv->load();
         $app['config']->set('services.softswitch', [
             'url' => getenv('SOFT_SWITCH_API_URL'),

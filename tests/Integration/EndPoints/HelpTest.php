@@ -11,6 +11,6 @@ class HelpTest extends TestCase
     {
         $response = $this->api->help();
 
-        $this->assertContains('reqtype - Request type', $response);
+        $this->assertStringContainsString('reqtype - Request type', $response);
     }
 }

@@ -38,6 +38,7 @@ class HttpClient
 
         $this->setClient(new Guzzle([
             'base_uri' => $this->baseUri,
+            'verify' => false, // Disable SSL verification for testing purposes
         ]));
     }
 
