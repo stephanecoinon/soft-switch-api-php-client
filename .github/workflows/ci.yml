@@ -40,4 +40,4 @@ jobs:
         echo "SOFT_SWITCH_API_KEY=" >> .env
 
     - name: Run tests
-      run: vendor/bin/phpunit --testsuite unit
+      run: vendor/bin/pest --testsuite unit
