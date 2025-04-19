@@ -4,9 +4,16 @@ namespace StephaneCoinon\SoftSwitch\Models;
 
 use StephaneCoinon\SoftSwitch\Model;
 
+/**
+ * @property string $account
+ * @property string $source
+ * @property string $phone
+ * @property string $sourceclid
+ */
 class OutgoingCall extends Model
 {
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         parent::__construct(array_merge([
             'account' => '',
             'source' => '',

@@ -10,7 +10,7 @@ use StephaneCoinon\SoftSwitch\Laravel\SoftSwitch;
 class SoftSwitchServiceProviderTest extends TestCase
 {
     /** @test */
-    function service_provider_registers_an_api_instance()
+    public function service_provider_registers_an_api_instance(): void
     {
         $api = app('softswitch');
 
@@ -18,19 +18,19 @@ class SoftSwitchServiceProviderTest extends TestCase
     }
 
     /** @test */
-    function facade_resolves_to_an_api_instance()
+    public function facade_resolves_to_an_api_instance(): void
     {
         $api = SoftSwitch::getFacadeRoot();
 
         $this->assertInstanceOf(Api::class, $api);
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [\StephaneCoinon\SoftSwitch\Laravel\SoftSwitchServiceProvider::class];
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $dotenv = Dotenv::createImmutable(__DIR__.'/../../..');
         $dotenv->load();

@@ -4,11 +4,16 @@ namespace StephaneCoinon\SoftSwitch\Models;
 
 use StephaneCoinon\SoftSwitch\Model;
 
+/**
+ * @property string $id
+ * @property bool $success Indicates if the call was successful
+ * @property OutgoingCall|null $outgoing The outgoing call associated with this dialled call
+ */
 class DialledCall extends Model
 {
     public static function createFromResponse(array $response): self
     {
-        return new static([
+        return new DialledCall([
             'success' => $response['Response'] == 'Success',
             'id' => $response['ID'],
         ]);
@@ -21,7 +26,7 @@ class DialledCall extends Model
         return $this;
     }
 
-    public function getOutgoing()
+    public function getOutgoing(): ?OutgoingCall
     {
         return $this->outgoing;
     }

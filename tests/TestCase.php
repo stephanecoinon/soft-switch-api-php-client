@@ -8,38 +8,43 @@ use StephaneCoinon\SoftSwitch\Api;
 
 class TestCase extends BaseTestCase
 {
-    /** @var array ['url' => string, 'username' => string, 'key' => string] */
-    protected $apiCredentials;
+    /**
+     * @var array{
+     *     url: string,
+     *     username: string,
+     *     key: string
+     * }
+     */
+    protected array $apiCredentials;
 
+    protected Api $api;
 
     /** @before */
-    public function bootstrap()
+    public function bootstrap(): void
     {
         $this->loadApiCredentials();
         $this->instantiateApiClient();
     }
 
-
-    protected function loadApiCredentials()
+    protected function loadApiCredentials(): void
     {
         $dotenv = Dotenv::createImmutable(__DIR__.'/..');
         $dotenv->load();
 
         $this->apiCredentials = [
-            'url' => getenv('SOFT_SWITCH_API_URL'),
-            'username' => getenv('SOFT_SWITCH_API_USERNAME'),
-            'key' => getenv('SOFT_SWITCH_API_KEY'),
+            'url' => (string) getenv('SOFT_SWITCH_API_URL'),
+            'username' => (string) getenv('SOFT_SWITCH_API_USERNAME'),
+            'key' => (string) getenv('SOFT_SWITCH_API_KEY'),
         ];
     }
 
-
-    protected function instantiateApiClient()
+    protected function instantiateApiClient(): void
     {
         $args = array_values($this->apiCredentials);
         $this->api = new Api(...$args);
     }
 
-    function pass()
+    public function pass(): void
     {
         $this->assertTrue(true);
     }

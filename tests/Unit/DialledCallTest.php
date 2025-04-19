@@ -8,7 +8,7 @@ use Tests\TestCase;
 class DialledCallTest extends TestCase
 {
     /** @test */
-    function making_new_instance_from_successful_api_response()
+    public function making_new_instance_from_successful_api_response(): void
     {
         $dialled = DialledCall::createFromResponse([
             'Response' => 'Success',
@@ -23,7 +23,7 @@ class DialledCallTest extends TestCase
     }
 
     /** @test */
-    function making_new_instance_from_failed_api_response()
+    public function making_new_instance_from_failed_api_response(): void
     {
         $dialled = DialledCall::createFromResponse([
             'Response' => 'Error',

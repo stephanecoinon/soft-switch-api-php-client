@@ -11,7 +11,7 @@ use StephaneCoinon\SoftSwitch\Models\DialledCall;
 class ApiTest extends TestCase
 {
     /** @test */
-    function dialling_out_and_getting_a_successful_response()
+    public function dialling_out_and_getting_a_successful_response(): void
     {
         $api = Mockery::mock(Api::class)->makePartial();
         $api->shouldReceive('getJson')
@@ -41,7 +41,7 @@ class ApiTest extends TestCase
     }
 
     /** @test */
-    function dialling_out_and_getting_a_failed_response()
+    public function dialling_out_and_getting_a_failed_response(): void
     {
         $outgoingCall = new OutgoingCall;
         $api = Mockery::mock(Api::class)->makePartial();

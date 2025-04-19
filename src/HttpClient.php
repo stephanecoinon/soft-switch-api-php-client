@@ -3,24 +3,25 @@
 namespace StephaneCoinon\SoftSwitch;
 
 use GuzzleHttp\Client as Guzzle;
+use Psr\Http\Message\ResponseInterface;
 use StephaneCoinon\SoftSwitch\Exceptions\MalformedJson;
 
 class HttpClient
 {
     /** @var string  Root/base URI for all endpoints */
-    protected $baseUri;
+    protected string $baseUri;
 
     /** @var string  API username */
-    protected $username;
+    protected string $username;
 
     /** @var string  API key */
-    protected $key;
+    protected string $key;
 
     /** @var \GuzzleHttp\Client Underlying HTTP client */
-    protected $http;
+    protected Guzzle $http;
 
-    /** @var string  debug HTTP client requests? */
-    protected $debug = false;
+    /** @var string|bool|null  debug HTTP client requests? */
+    protected $debug = null;
 
 
     /**
@@ -30,7 +31,7 @@ class HttpClient
      * @param string $username  API username
      * @param string $key  API key
      */
-    public function __construct($baseUri, $username, $key)
+    public function __construct(string $baseUri, string $username, string $key)
     {
         $this->baseUri = $baseUri;
         $this->username = $username;
@@ -44,11 +45,8 @@ class HttpClient
 
     /**
      * Set the underlying HTTP client.
-     *
-     * @param  \GuzzleHttp\Client $httpClient
-     * @return self
      */
-    public function setClient($httpClient)
+    public function setClient(Guzzle $httpClient): self
     {
         $this->http = $httpClient;
 
@@ -57,21 +55,16 @@ class HttpClient
 
     /**
      * Get the underlying HTTP client instance.
-     *
-     * @return \GuzzleHttp\Client
      */
-    public function getClient()
+    public function getClient(): Guzzle
     {
         return $this->http;
     }
 
     /**
      * Turn debug/verbose on/off.
-     *
-     * @param  boolean $debug
-     * @return static
      */
-    public function debug($debug = true)
+    public function debug(bool $debug = true): self
     {
         $this->debug = $debug;
 
@@ -86,9 +79,9 @@ class HttpClient
      * @param  string $type        Soft-Switch request type ('HELP', 'COUNTPEERS'...)
      * @param  array  $parameters  request parameters
      * @param  string $format      'json' or 'plain'
-     * @return GuzzleHttp\Psr7\Response
+     * @return ResponseInterface
      */
-    public function request($method, $type, $parameters = [], $format = 'json')
+    public function request(string $method, string $type, array $parameters = [], string $format = 'json'): ResponseInterface
     {
         $query = array_merge([
             'reqtype' => $type,
@@ -110,9 +103,9 @@ class HttpClient
      * @param  string $type        request type
      * @param  array  $parameters  request parameters
      * @param  string $format      'json' or 'plain'
-     * @return GuzzleHttp\Psr7\Response
+     * @return ResponseInterface
      */
-    public function get($type, $parameters = [], $format = 'json')
+    public function get(string $type, array $parameters = [], string $format = 'json'): ResponseInterface
     {
         return $this->request('GET', $type, $parameters, $format);
     }
@@ -124,15 +117,15 @@ class HttpClient
      * @param  array   $parameters  request parameters
      * @param  boolean $assoc       When TRUE, returned objects will be converted into associative arrays.
      * @return array
-     * @throws \StephaneCoinon\SoftSwitch\Exceptions\MalformedJson
+     * @throws MalformedJson
      */
-    public function getJson($type, $parameters = [], $assoc = true)
+    public function getJson(string $type, array $parameters = [], bool $assoc = true): array
     {
         $response = $this->get($type, $parameters, 'json');
 
         $json = json_decode($response->getBody(), $assoc);
 
-        if (is_null($json)) {
+        if (!is_array($json)) {
             throw new MalformedJson('Malformed JSON response', json_last_error());
         }
 

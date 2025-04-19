@@ -4,9 +4,13 @@ namespace StephaneCoinon\SoftSwitch\Models;
 
 use StephaneCoinon\SoftSwitch\Model;
 
+/**
+ * @property int $total Total number of peers
+ * @property array $nodes List of nodes
+ */
 class PeerCount extends Model
 {
-    public static function createFromJson(array $json)
+    public static function createFromJson(array $json): self
     {
         // Get total count
         $total = $json['total'];
@@ -17,7 +21,7 @@ class PeerCount extends Model
             $json[$key] = (int) $value;
         }
 
-        return new static([
+        return new PeerCount([
             'total' => $total,
             'nodes' => $json,
         ]);

@@ -11,9 +11,9 @@ class SoftSwitchServiceProvider extends ServiceProvider
     {
         $this->app->singleton('softswitch', function ($app) {
             return new Api(
-                config('services.softswitch.url'),
-                config('services.softswitch.username'),
-                config('services.softswitch.key')
+                is_string(config('services.softswitch.url')) ? config('services.softswitch.url') : '',
+                is_string(config('services.softswitch.username')) ? config('services.softswitch.username') : '',
+                is_string(config('services.softswitch.key')) ? config('services.softswitch.key') : ''
             );
         });
     }
