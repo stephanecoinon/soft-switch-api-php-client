@@ -26,6 +26,12 @@ class TestCase extends BaseTestCase
         $this->instantiateApiClient();
     }
 
+    function getPackageProviders($app): array
+    {
+        return [\StephaneCoinon\SoftSwitch\Laravel\SoftSwitchServiceProvider::class];
+    }
+
+
     protected function loadApiCredentials(): void
     {
         $dotenv = Dotenv::createImmutable(__DIR__.'/..');

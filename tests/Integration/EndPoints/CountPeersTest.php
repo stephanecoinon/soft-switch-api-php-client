@@ -1,20 +1,17 @@
 <?php
 
-namespace Tests\Integration\EndPoints;
+declare(strict_types=1);
 
 use StephaneCoinon\SoftSwitch\Models\PeerCount;
 use Tests\TestCase;
 
-class CountPeersTest extends TestCase
-{
-    /** @test */
-    public function peers_count_can_be_fetched(): void
-    {
-        $response = $this->api->countPeers();
+uses(TestCase::class);
 
-        $this->assertInstanceOf(PeerCount::class, $response);
-        $this->assertGreaterThan(0, $response->total);
-        $this->assertIsArray($response->nodes);
-        $this->assertEquals($response->total, array_sum($response->nodes));
-    }
-}
+it('can fetch peers count', function () {
+    $response = $this->api->countPeers();
+
+    expect($response)->toBeInstanceOf(PeerCount::class)
+        ->and($response->total)->toBeGreaterThan(0)
+        ->and($response->nodes)->toBeArray()
+        ->and($response->total)->toEqual(array_sum($response->nodes));
+});

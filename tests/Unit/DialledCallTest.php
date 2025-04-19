@@ -1,38 +1,28 @@
 <?php
 
-namespace Tests\Unit;
+declare(strict_types=1);
 
 use StephaneCoinon\SoftSwitch\Models\DialledCall;
-use Tests\TestCase;
 
-class DialledCallTest extends TestCase
-{
-    /** @test */
-    public function making_new_instance_from_successful_api_response(): void
-    {
-        $dialled = DialledCall::createFromResponse([
-            'Response' => 'Success',
-            'Message' => 'Originate successfully queued',
-            'ID' => '15c5ec7352f0d7',
-        ]);
+it('makes a new instance from a successful API response', function () {
+    $dialled = DialledCall::createFromResponse([
+        'Response' => 'Success',
+        'Message' => 'Originate successfully queued',
+        'ID' => '15c5ec7352f0d7',
+    ]);
 
-        $this->assertInstanceOf(DialledCall::class, $dialled);
-        $this->assertTrue($dialled->wasQueued());
-        $this->assertFalse($dialled->failed());
-        $this->assertEquals('15c5ec7352f0d7', $dialled->id);
-    }
+    expect($dialled)->toBeInstanceOf(DialledCall::class)
+        ->and($dialled->wasQueued())->toBeTrue()
+        ->and($dialled->failed())->toBeFalse()
+        ->and($dialled->id)->toEqual('15c5ec7352f0d7');
+});
 
-    /** @test */
-    public function making_new_instance_from_failed_api_response(): void
-    {
-        $dialled = DialledCall::createFromResponse([
-            'Response' => 'Error',
-            'ID' => '15c5ec7352f0d7',
-        ]);
+it('makes a new instance from a failed API response', function () {
+    $dialled = DialledCall::createFromResponse([
+        'Response' => 'Error',
+        'ID' => '15c5ec7352f0d7',
+    ]);
 
-        $this->assertInstanceOf(DialledCall::class, $dialled);
-        $this->assertFalse($dialled->wasQueued());
-        $this->assertTrue($dialled->failed());
-        $this->assertEquals('15c5ec7352f0d7', $dialled->id);
-    }
-}
+    expect($dialled)->toBeInstanceOf(DialledCall::class)
+        ->and($dialled->failed())->toBeTrue();
+});

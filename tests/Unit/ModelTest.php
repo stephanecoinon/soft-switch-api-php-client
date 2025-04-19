@@ -1,52 +1,35 @@
 <?php
 
-namespace Tests\Unit;
+declare(strict_types=1);
 
 use StephaneCoinon\SoftSwitch\Model;
-use Tests\TestCase;
 
-class ModelTest extends TestCase
-{
-    /** @test */
-    public function it_ignores_numeric_attribute_names(): void
-    {
-        $model = new ModelStub([
-            0 => 'John',
-            'name' => 'John',
-            '1' => 'john@example.com',
-            'email' => 'john@example.com',
-        ]);
+it('ignores numeric attribute names', function () {
+    $model = new ModelStub([
+        0 => 'John',
+        'name' => 'John',
+        '1' => 'john@example.com',
+        'email' => 'john@example.com',
+    ]);
 
-        $this->assertEquals(
-            [
-                'name' => 'John',
-                'email' => 'john@example.com',
-            ],
-            $model->getAttributes()
-        );
-    }
+    expect($model->getAttributes())->toEqual([
+        'name' => 'John',
+        'email' => 'john@example.com',
+    ]);
+});
 
-    /** @test */
-    public function it_returns_a_default_value_when_attempting_to_get_a_non_existing_attribute(): void
-    {
-        $model = new ModelStub(['foo' => 42]);
+it('returns a default value when attempting to get a non-existing attribute', function () {
+    $model = new ModelStub(['foo' => 42]);
 
-        $this->assertNull($model->getAttribute('bar'));
-    }
+    expect($model->getAttribute('bar'))->toBeNull();
+});
 
-    /** @test */
-    public function attributes_can_be_retrieved_as_an_instance_property(): void
-    {
-        $model = new ModelStub(['foo' => 42]);
+it('retrieves attributes as an instance property', function () {
+    $model = new ModelStub(['foo' => 42]);
 
-        $this->assertEquals(42, $model->foo);
-    }
-}
+    expect($model->foo)->toEqual(42);
+});
 
-
-/**
- * @property int $foo
- */
 class ModelStub extends Model
 {
 }

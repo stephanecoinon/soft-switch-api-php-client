@@ -1,16 +1,13 @@
 <?php
 
-namespace Tests\Integration\EndPoints;
+declare(strict_types=1);
 
 use Tests\TestCase;
 
-class HelpTest extends TestCase
-{
-    /** @test */
-    public function help_page_can_be_fetched(): void
-    {
-        $response = $this->api->help();
+uses(TestCase::class);
 
-        $this->assertStringContainsString('reqtype - Request type', $response);
-    }
-}
+it('can fetch the help page', function () {
+    $response = $this->api->help();
+
+    expect($response)->toContain('reqtype - Request type');
+});
