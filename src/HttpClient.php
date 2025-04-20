@@ -21,7 +21,7 @@ class HttpClient
     protected Guzzle $http;
 
     /** @var string|bool|null  debug HTTP client requests? */
-    protected $debug = null;
+    protected $debug;
 
 
     /**
@@ -79,7 +79,6 @@ class HttpClient
      * @param  string $type        Soft-Switch request type ('HELP', 'COUNTPEERS'...)
      * @param  array  $parameters  request parameters
      * @param  string $format      'json' or 'plain'
-     * @return ResponseInterface
      */
     public function request(string $method, string $type, array $parameters = [], string $format = 'json'): ResponseInterface
     {
@@ -103,7 +102,6 @@ class HttpClient
      * @param  string $type        request type
      * @param  array  $parameters  request parameters
      * @param  string $format      'json' or 'plain'
-     * @return ResponseInterface
      */
     public function get(string $type, array $parameters = [], string $format = 'json'): ResponseInterface
     {
@@ -116,7 +114,6 @@ class HttpClient
      * @param  string  $type        request type
      * @param  array   $parameters  request parameters
      * @param  boolean $assoc       When TRUE, returned objects will be converted into associative arrays.
-     * @return array
      * @throws MalformedJson
      */
     public function getJson(string $type, array $parameters = [], bool $assoc = true): array

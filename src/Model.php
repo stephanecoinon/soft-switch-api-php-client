@@ -13,8 +13,6 @@ class Model
 
     /**
      * Instantiate a new model.
-     *
-     * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -52,9 +50,7 @@ class Model
     /**
      * Set an attribute value.
      *
-     * @param  string $name
      * @param  mixed $value
-     * @return self
      */
     public function setAttribute(string $name, $value): self
     {
@@ -106,8 +102,6 @@ class Model
      *
      * Override this method in your child model when not all the model attributes
      * should be passed as parameters to the API.
-     *
-     * @return array
      */
     public function getApiParameters(): array
     {
