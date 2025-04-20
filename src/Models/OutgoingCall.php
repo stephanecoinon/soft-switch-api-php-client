@@ -26,7 +26,7 @@ class OutgoingCall extends Model
     {
         $this->account = $account;
 
-        if (! $this->source) {
+        if ($this->source === '' || $this->source === '0') {
             $this->source = 'ACCOUNT';
         }
 
