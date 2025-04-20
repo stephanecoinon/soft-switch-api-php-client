@@ -6,10 +6,10 @@ class Model
 {
     /**
      * Model attributes.
-     *
-     * @var array
      */
-    protected $attributes = [];
+    protected array $attributes = [];
+
+    protected Api $api;
 
     /**
      * Instantiate a new model.
@@ -22,6 +22,8 @@ class Model
         $this->attributes = array_filter($attributes, function ($value, $key) {
             return ! is_numeric($key);
         }, ARRAY_FILTER_USE_BOTH);
+
+        $this->api = app('softswitch');
     }
 
     /**

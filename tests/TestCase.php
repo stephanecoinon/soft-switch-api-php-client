@@ -3,45 +3,29 @@
 namespace Tests;
 
 use Dotenv\Dotenv;
-use PHPUnit\Framework\TestCase as BaseTestCase;
 use StephaneCoinon\SoftSwitch\Api;
 
-class TestCase extends BaseTestCase
+class TestCase extends \Orchestra\Testbench\TestCase
 {
-    /**
-     * @var array{
-     *     url: string,
-     *     username: string,
-     *     key: string
-     * }
-     */
-    protected array $apiCredentials;
-
     protected Api $api;
 
-    /** @before */
-    public function bootstrap(): void
+    protected function getPackageProviders($app): array
     {
-        $this->loadApiCredentials();
-        $this->instantiateApiClient();
+        return [\StephaneCoinon\SoftSwitch\Laravel\SoftSwitchServiceProvider::class];
     }
 
-    protected function loadApiCredentials(): void
+    protected function getEnvironmentSetUp($app): void
     {
         $dotenv = Dotenv::createImmutable(__DIR__.'/..');
         $dotenv->load();
 
-        $this->apiCredentials = [
+        $app['config']->set('services.softswitch', [
             'url' => (string) getenv('SOFT_SWITCH_API_URL'),
             'username' => (string) getenv('SOFT_SWITCH_API_USERNAME'),
             'key' => (string) getenv('SOFT_SWITCH_API_KEY'),
-        ];
-    }
+        ]);
 
-    protected function instantiateApiClient(): void
-    {
-        $args = array_values($this->apiCredentials);
-        $this->api = new Api(...$args);
+        $this->api = app('softswitch');
     }
 
     public function pass(): void

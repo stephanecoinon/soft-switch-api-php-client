@@ -2,10 +2,9 @@
 
 namespace Tests\Unit\Laravel;
 
-use Dotenv\Dotenv;
-use Orchestra\Testbench\TestCase;
 use StephaneCoinon\SoftSwitch\Api;
 use StephaneCoinon\SoftSwitch\Laravel\SoftSwitch;
+use Tests\TestCase;
 
 class SoftSwitchServiceProviderTest extends TestCase
 {
@@ -23,21 +22,5 @@ class SoftSwitchServiceProviderTest extends TestCase
         $api = SoftSwitch::getFacadeRoot();
 
         $this->assertInstanceOf(Api::class, $api);
-    }
-
-    protected function getPackageProviders($app): array
-    {
-        return [\StephaneCoinon\SoftSwitch\Laravel\SoftSwitchServiceProvider::class];
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../../..');
-        $dotenv->load();
-        $app['config']->set('services.softswitch', [
-            'url' => getenv('SOFT_SWITCH_API_URL'),
-            'username' => getenv('SOFT_SWITCH_API_USERNAME'),
-            'key' => getenv('SOFT_SWITCH_API_KEY'),
-        ]);
     }
 }

@@ -43,6 +43,11 @@ class HttpClient
         ]));
     }
 
+    public function getBaseUri(): string
+    {
+        return $this->baseUri;
+    }
+
     /**
      * Set the underlying HTTP client.
      */
