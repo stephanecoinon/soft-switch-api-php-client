@@ -38,10 +38,15 @@ jobs:
       run: vendor/bin/rector process
 
     - name: Commit Rector changes if any
-      if: steps.rector.outcome == 'success' && steps.rector.outputs.changes == 'true'
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: "Apply Rector changes"
+      if: steps.rector.outcome == 'success'
+      run: |
+        if [[ $(git status --porcelain) ]]; then
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Apply Rector changes"
+          git push origin HEAD
+        fi
 
     - name: Create .env file
       run: |
