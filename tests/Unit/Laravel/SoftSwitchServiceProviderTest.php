@@ -9,11 +9,17 @@ use Tests\TestCase;
 class SoftSwitchServiceProviderTest extends TestCase
 {
     /** @test */
-    public function service_provider_registers_an_api_instance(): void
+    public function it_registers_an_api_instance(): void
     {
-        $api = app('softswitch');
+        $api = app(Api::class);
 
         $this->assertInstanceOf(Api::class, $api);
+    }
+
+    /** @test */
+    public function it_registers_softswitch_as_an_alias_of_api_class(): void
+    {
+        $this->assertSame(app(Api::class), app('softswitch'));
     }
 
     /** @test */
