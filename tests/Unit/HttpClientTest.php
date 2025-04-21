@@ -13,6 +13,29 @@ use Tests\TestCase;
 class HttpClientTest extends TestCase
 {
     /** @test */
+    public function it_accepts_json_when_requesting_the_json_format(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, ['Content-Type' => 'application/json'], '{"foo": "bar"}')
+        ]);
+        $handler = HandlerStack::create($mock);
+        $client = new Client(['handler' => $handler]);
+        $http = (new HttpClient('', '', ''))->setClient($client);
+
+        $http->getJson('reqtype');
+
+        // Assert that a GET request was made with header 'Accept: application/json'
+        $lastRequest = $mock->getLastRequest();
+        $this->assertEquals('GET', $lastRequest->getMethod());
+        $this->assertEquals('application/json', $lastRequest->getHeaderLine('Accept'));
+        // Assert that the request paramaters include 'format=json'
+        $query = $lastRequest->getUri()->getQuery();
+        parse_str($query, $queryParams);
+        $this->assertArrayHasKey('format', $queryParams);
+        $this->assertEquals('json', $queryParams['format']);
+    }
+
+    /** @test */
     public function decoding_well_formed_json_response_from_a_get_request(): void
     {
         $http = $this->mockHttpClient([

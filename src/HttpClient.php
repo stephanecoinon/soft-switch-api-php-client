@@ -94,10 +94,16 @@ class HttpClient
             'format' => $format,
         ], $parameters);
 
-        return $this->http->request($method, '', [
+        $options = [
             'debug' => $this->debug,
             'query' => $query,
-        ]);
+        ];
+
+        if ($format === 'json') {
+            $options['headers'] = ['Accept' => 'application/json'];
+        }
+
+        return $this->http->request($method, '', $options);
     }
 
 
@@ -127,7 +133,18 @@ class HttpClient
 
         $json = json_decode($response->getBody(), $assoc);
 
-        if (!is_array($json)) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            // dump([
+            //     'HttpClient::getJson()' => [
+            //         'type' => $type,
+            //         'parameters' => $parameters,
+            //         'response' => (string) $response->getBody(),
+            //     ],
+            //     'json_last_error()' => json_last_error(),
+            //     'json_last_error_msg()' => json_last_error_msg(),
+            //     'json' => $json,
+            // ]);
+
             throw new MalformedJson('Malformed JSON response', json_last_error());
         }
 
