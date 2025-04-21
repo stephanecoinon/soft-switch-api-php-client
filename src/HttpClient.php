@@ -124,14 +124,13 @@ class HttpClient
      *
      * @param  string  $type        request type
      * @param  array   $parameters  request parameters
-     * @param  boolean $assoc       When TRUE, returned objects will be converted into associative arrays.
      * @throws MalformedJson
      */
-    public function getJson(string $type, array $parameters = [], bool $assoc = true): array
+    public function getJson(string $type, array $parameters = []): array
     {
         $response = $this->get($type, $parameters, 'json');
 
-        $json = json_decode($response->getBody(), $assoc);
+        $json = json_decode($response->getBody(), true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             // dump([
@@ -148,6 +147,6 @@ class HttpClient
             throw new MalformedJson('Malformed JSON response', json_last_error());
         }
 
-        return $json;
+        return (array) $json;
     }
 }
