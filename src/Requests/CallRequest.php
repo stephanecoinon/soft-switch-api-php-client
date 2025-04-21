@@ -82,17 +82,17 @@ class CallRequest extends InfoRequest
         $this->limit = $limit;
 
         // Filter by disposition if set
-        if ($this->disposition) {
+        if ($this->disposition !== '' && $this->disposition !== '0') {
             $calls = $calls->filter(fn ($call) => $call->disposition === $this->disposition);
         }
 
         // Filter by bound (outgoing/incoming) if set
-        if ($this->callDirection) {
+        if ($this->callDirection !== '' && $this->callDirection !== '0') {
             $calls = $calls->filter(fn ($call) => $call->userfield === $this->callDirection);
         }
 
         // Order the calls after applying all the filters
-        if ($this->orderBy) {
+        if ($this->orderBy !== '' && $this->orderBy !== '0') {
             $calls = $calls->sortBy(fn ($call) => $call->getAttribute($this->orderBy), SORT_REGULAR, $this->orderDescending);
         }
 
