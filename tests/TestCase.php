@@ -19,7 +19,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $dotenv = Dotenv::createImmutable(__DIR__.'/..');
         $dotenv->load();
 
-        $app['config']->set('services.softswitch', [
+        $app['config']->set('soft-switch', [
             'url' => (string) getenv('SOFT_SWITCH_API_URL'),
             'username' => (string) getenv('SOFT_SWITCH_API_USERNAME'),
             'key' => (string) getenv('SOFT_SWITCH_API_KEY'),

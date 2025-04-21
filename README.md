@@ -19,3 +19,19 @@ composer require stephanecoinon/softswitch
 ```bash
 composer require stephanecoinon/softswitch:"^1.0"
 ```
+
+## Configuration
+
+Add the API credentials to your `.env`:
+
+```ini
+SOFT_SWITCH_API_URL=https://pbx-cl1-01.soft-switch-pbx.uk/pbx/proxyapi.php
+SOFT_SWITCH_API_USERNAME=
+SOFT_SWITCH_API_KEY=
+```
+
+Publish the configuration file:
+
+```bash
+php artisan vendor:publish --provider="StephaneCoinon\SoftSwitch\Laravel\SoftSwitchServiceProvider"
+```
