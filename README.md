@@ -36,6 +36,21 @@ Publish the configuration file:
 php artisan vendor:publish --provider="StephaneCoinon\SoftSwitch\Laravel\SoftSwitchServiceProvider"
 ```
 
+## Usage
+
+```php
+use StephaneCoinon\SoftSwitch\Models\Call;
+
+// Get a list of latest calls
+$calls = Call::request()
+    ->latest()
+    ->incoming()
+    ->answered()
+    ->since('last week')
+    ->take(20)
+    ->get();
+```
+
 ## Testing
 
 ### With code coverage

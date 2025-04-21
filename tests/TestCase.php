@@ -3,6 +3,9 @@
 namespace Tests;
 
 use Dotenv\Dotenv;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
 use StephaneCoinon\SoftSwitch\Api;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -31,5 +34,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
     public function pass(): void
     {
         $this->assertTrue(true);
+    }
+
+    public function mockApi(array $httpResponses): void
+    {
+        $mock = new MockHandler($httpResponses);
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+        $api = (new Api('', '', ''))->setClient($client);
+
+        app()->instance(Api::class, $api);
     }
 }

@@ -62,6 +62,18 @@ class Model
     }
 
     /**
+     * @return static The current instance of the model.
+     */
+    public function setAttributes(array $attributes)
+    {
+        foreach ($attributes as $key => $value) {
+            $this->setAttribute($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
      * Get all the attributes on the model.
      *
      * @return array
