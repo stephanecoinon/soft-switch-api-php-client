@@ -35,3 +35,13 @@ Publish the configuration file:
 ```bash
 php artisan vendor:publish --provider="StephaneCoinon\SoftSwitch\Laravel\SoftSwitchServiceProvider"
 ```
+
+## Testing
+
+### With code coverage
+
+Enable XDebug then run:
+
+```bash
+phpunit --coverage-filter=src/ --coverage-html=coverage-report/
+```
