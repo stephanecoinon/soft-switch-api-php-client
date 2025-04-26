@@ -20,6 +20,8 @@ class DialledCallTest extends TestCase
         $this->assertTrue($dialled->wasQueued());
         $this->assertFalse($dialled->failed());
         $this->assertEquals('15c5ec7352f0d7', $dialled->id);
+        $this->assertEquals('Success', $dialled->responseText);
+        $this->assertEquals('Originate successfully queued', $dialled->message);
     }
 
     /** @test */
@@ -27,6 +29,7 @@ class DialledCallTest extends TestCase
     {
         $dialled = DialledCall::createFromResponse([
             'Response' => 'Error',
+            "Message" => "Extension does not exist.",
             'ID' => '15c5ec7352f0d7',
         ]);
 
@@ -34,5 +37,7 @@ class DialledCallTest extends TestCase
         $this->assertFalse($dialled->wasQueued());
         $this->assertTrue($dialled->failed());
         $this->assertEquals('15c5ec7352f0d7', $dialled->id);
+        $this->assertEquals('Error', $dialled->responseText);
+        $this->assertEquals('Extension does not exist.', $dialled->message);
     }
 }
