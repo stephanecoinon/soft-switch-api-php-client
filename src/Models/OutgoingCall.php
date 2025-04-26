@@ -40,9 +40,9 @@ class OutgoingCall extends Model
         return $this;
     }
 
-    public function callAs(string $callerId): self
+    public function callAs(string $callerId, string $callerName = ''): self
     {
-        $this->sourceclid = $callerId;
+        $this->sourceclid = sprintf('"%s" <%s>', $callerName, $callerId);
 
         return $this;
     }

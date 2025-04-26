@@ -19,7 +19,7 @@ class ApiTest extends TestCase
                 'account' => $account = '123-COMPANY',
                 'source' => 'ACCOUNT',
                 'phone' => $phone = '01234567890',
-                'sourceclid' => $callerId = '123',
+                'sourceclid' => '"" <123>',
             ])
             ->andReturn([
                 'Response' => 'Success',
@@ -31,7 +31,7 @@ class ApiTest extends TestCase
             $outgoing = (new OutgoingCall)
                 ->fromAccount($account)
                 ->to($phone)
-                ->callAs($callerId)
+                ->callAs('123')
         );
 
         $this->assertInstanceOf(DialledCall::class, $dialled);
